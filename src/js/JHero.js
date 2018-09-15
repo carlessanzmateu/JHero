@@ -5,11 +5,13 @@ const context = canvas.getContext("2d");
 const fps = 60;
 const hero = new Hero(context);
 
-var rightPressed = false;
-var leftPressed = false;
+let rightPressed = false;
+let leftPressed = false;
+let jumpPressed = false;
 
 const initHeroXLocation = 40;
 let x = initHeroXLocation;
+let y = canvas.height - hero.getHeroHeight();
 
 function keyDownHandler(e) {
   if(e.keyCode == 39) {
@@ -17,6 +19,10 @@ function keyDownHandler(e) {
   }
   else if(e.keyCode == 37) {
       leftPressed = true;
+  }
+
+  if(e.keyCode == 32) {
+    jumpPressed = true;
   }
 }
 
@@ -26,6 +32,10 @@ function keyUpHandler(e) {
   }
   else if(e.keyCode == 37) {
       leftPressed = false;
+  }
+
+  if(e.keyCode == 32) {
+    jumpPressed = false;
   }
 }
 
@@ -59,7 +69,14 @@ function render() {
     x -= hero.getXHeroMovementSpeed();
   }
 
+  if(jumpPressed) {
+    y -= hero.getJumpSpeed();
+  } else if(y < canvas.height - hero.getHeroHeight()) {
+    y += hero.getFallSpeed();
+  }
+
   hero.setXLocation(x);
+  hero.setYLocation(y);
 
   setTimeout(() => {
     requestAnimationFrame(render)

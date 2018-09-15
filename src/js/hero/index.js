@@ -6,6 +6,8 @@ export class Hero {
   xLocation;
   yLocation;
   xMovementSpeed = 2;
+  jumpSpeed = 3;
+  fallSpeed = 5;
 
   constructor(context) {
     this.context = context;
@@ -70,5 +72,21 @@ export class Hero {
 
   setXHeroMovementSpeed(xHeroMovementSpeed) {
     this.xMovementSpeed = xHeroMovementSpeed;
+  }
+
+  getJumpSpeed() {
+    return this.jumpSpeed;
+  }
+
+  setJumpSpeed(heroJumpSpeed) {
+    this.jumpSpeed = heroJumpSpeed;
+  }
+
+  getFallSpeed() {
+    return this.fallSpeed;
+  }
+
+  setFallSpeed(heroFallSpeed) {
+    this.fallSpeed = heroFallSpeed;
   }
 }
