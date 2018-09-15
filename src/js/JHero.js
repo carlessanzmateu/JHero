@@ -8,7 +8,7 @@ const fps = 60;
 
 const keyboard = new Keyboard();
 const hero = new Hero(context);
-const wall = new Wall(context, 30, 50, canvas.width/2, canvas.height - 50);
+const wall = new Wall(context, 30, 100, canvas.width/2, canvas.height - 50);
 
 const initHeroXLocation = 40;
 let x = initHeroXLocation;
@@ -23,21 +23,53 @@ function keyUpHandler(event) {
 }
 
 function mapBorderCollider() {
-  if (x >= canvas.width - hero.getHeroWidth()) {
-    x = canvas.width - hero.getHeroWidth();
+  if (hero.getXLocation() >= canvas.width - hero.getHeroWidth()) {
+    hero.setXLocation(canvas.width - hero.getHeroWidth());
   }
 
-  if (x < 0) {
-    x = 0;
+  if (hero.getXLocation() < 0) {
+    hero.setXLocation(0);
   }
 
-  if (y > canvas.height - hero.getHeroHeight()) {
-    y = canvas.height - hero.getHeroHeight();
+  if (hero.getYLocation() > canvas.height - hero.getHeroHeight()) {
+    hero.setYLocation(canvas.height - hero.getHeroHeight());
   }
 
-  if (y < 0) {
-    y = 0;
+  if (hero.getYLocation() < 0) {
+    hero.setYLocation(0);
   }
+}
+
+function wallCollider() {
+  let xCollission = hero.getXLocation() + hero.getHeroWidth() >= wall.getWallXLocation() && 
+  hero.getXLocation() < wall.getWallXLocation() + wall.getWallWidth();
+
+  if (xCollission) {
+    if(hero.getYLocation() + hero.getHeroHeight() > wall.getWallYLocation()) {
+      return true;
+    } else {
+      return false;
+    }
+  } else {
+    return false;
+  }
+
+  // if (hero.getXLocation() <= wall.getWallXLocation() + wall.getWallWidth()) {
+  //   if ((hero.getYLocation() + hero.getHeroHeight()) > wall.getWallYLocation()) {
+  //     hero.setXLocation(wall.getWallXLocation() + wall.getWallWidth());
+  //   }
+  // }
+
+  // if ((hero.getYLocation() + hero.getHeroHeight()) > wall.getWallYLocation()) {
+  //   // hero.setXLocation(wall.getWallXLocation() - hero.getHeroWidth());
+  //   console.log('collision!');
+  // }
+}
+
+function yWallCollider() {
+  let yCollission = hero.getYLocation() + hero.getHeroHeight() > wall.getWallYLocation();
+
+  return yCollission;
 }
 
 function initHeroLocation() {
@@ -54,22 +86,21 @@ function render() {
   hero.draw();
   wall.draw();
   
-  if(keyboard.getRightPressed() && !(x + hero.getHeroWidth() >= canvas.width)) {
-    x += hero.getXHeroMovementSpeed();
+  if(keyboard.getRightPressed() && !(hero.getXLocation() + hero.getHeroWidth() >= canvas.width) && !wallCollider()) {
+    hero.setXLocation(hero.getXLocation() + hero.getXHeroMovementSpeed());
   }
-  else if(keyboard.getLeftPressed() && !(x <= 0)) {
-    x -= hero.getXHeroMovementSpeed();
+  else if(keyboard.getLeftPressed() && !(hero.getXLocation() <= 0)) {
+    hero.setXLocation(hero.getXLocation() - hero.getXHeroMovementSpeed());
   }
 
   if(keyboard.getJumpPressed()) {
-    y -= hero.getJumpSpeed();
-  } else if(y < canvas.height - hero.getHeroHeight()) {
-    y += hero.getFallSpeed();
+    hero.setYLocation(hero.getYLocation() - hero.getJumpSpeed());
+  } else if(hero.getYLocation() < canvas.height - hero.getHeroHeight()) {
+    hero.setYLocation(hero.getYLocation() + hero.getFallSpeed());
   }
 
+  // wallCollider();
   mapBorderCollider();
-  hero.setXLocation(x);
-  hero.setYLocation(y);
 
   setTimeout(() => {
     requestAnimationFrame(render)

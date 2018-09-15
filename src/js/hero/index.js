@@ -18,8 +18,8 @@ export class Hero {
     this.context.rect(
       this.getXLocation(),
       this.getYLocation(),
-      this.width,
-      this.height,
+      this.getHeroWidth(),
+      this.getHeroHeight(),
     );
     this.context.fillStyle = this.getHeroColor();
     this.context.fill();

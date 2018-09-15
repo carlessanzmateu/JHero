@@ -19,8 +19,8 @@ export class Wall {
     this.context.rect(
       this.getXLocation(),
       this.getYLocation(),
-      this.width,
-      this.height,
+      this.getWallWidth(),
+      this.getWallHeight(),
     );
     this.context.fillStyle = this.color;
     this.context.fill();
@@ -32,6 +32,22 @@ export class Wall {
   }
 
   getYLocation() {
+    return this.yLocation;
+  }
+
+  getWallWidth() {
+    return this.width;
+  }
+
+  getWallHeight() {
+    return this.height;
+  }
+
+  getWallXLocation() {
+    return this.xLocation;
+  }
+
+  getWallYLocation() {
     return this.yLocation;
   }
 }
