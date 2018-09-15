@@ -5,6 +5,7 @@ export class Hero {
   color = "#FF0000";
   xLocation;
   yLocation;
+  xMovementSpeed = 2;
 
   constructor(context) {
     this.context = context;
@@ -57,5 +58,17 @@ export class Hero {
 
   getHeroWidth() {
     return this.width;
+  }
+
+  setHeroWidth(heroWidth) {
+    this.width = heroWidth;
+  }
+
+  getXHeroMovementSpeed() {
+    return this.xMovementSpeed;
+  }
+
+  setXHeroMovementSpeed(xHeroMovementSpeed) {
+    this.xMovementSpeed = xHeroMovementSpeed;
   }
 }
