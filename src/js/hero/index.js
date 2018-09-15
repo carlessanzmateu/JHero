@@ -10,7 +10,6 @@ export class Hero {
     this.context = context;
     this.xLocation = xLocation;
     this.yLocation = yLocation;
-    console.log('hero is working');
   }
 
   draw() {
