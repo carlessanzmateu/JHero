@@ -5,7 +5,7 @@ export class Hero {
   color = "#FF0000";
   xLocation;
   yLocation;
-  xMovementSpeed = 2;
+  xMovementSpeed = 7;
   jumpSpeed = 3;
   fallSpeed = 5;
 
