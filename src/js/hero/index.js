@@ -1,22 +1,3 @@
-// (function(){
-//   var heroWidth = 15;
-//   var heroHeight = 40;
-//   var heroColor = "#FF0000";
-
-//   var heroXLocation = 10;
-
-//   function hero(ctx) {
-//     ctx.beginPath();
-//     ctx.rect(heroXLocation, canvas.height - heroHeight, heroWidth, heroHeight);
-//     ctx.fillStyle = heroColor;
-//     ctx.fill();
-//     ctx.closePath();
-//   }
-
-//   window.JHERO.hero = hero;
-
-// })()
-
 export class Hero {
   context
   width = 15
@@ -71,5 +52,9 @@ export class Hero {
 
   getHeroHeight() {
     return this.height;
+  }
+
+  setHeroHeight(heroHeight) {
+    this.height = heroHeight;
   }
 }
