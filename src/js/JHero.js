@@ -3,18 +3,26 @@ import { Hero } from './hero/index';
 const canvas = document.getElementById("myCanvas");
 const context = canvas.getContext("2d");
 
-let heroXLocation = 40;
+const initHeroXLocation = 40;
+let x = initHeroXLocation;
+let differenceToX = 2;
 
 const fps = 60;
 
-const hero = new Hero(context, 0, 0);
+const hero = new Hero(context);
+
+function mapBorderCollider() {
+  if(x + differenceToX > canvas.width - hero.getHeroWidth() || x + differenceToX < 0) {
+    differenceToX = -differenceToX;
+  }
+}
 
 function initHeroLocation() {
   const heroHeight = hero.getHeroHeight();
-  const heroYLocation = canvas.height - heroHeight;
+  const initHeroYLocation = canvas.height - heroHeight;
 
-  hero.setXLocation(heroXLocation);
-  hero.setYLocation(heroYLocation);
+  hero.setXLocation(initHeroXLocation);
+  hero.setYLocation(initHeroYLocation);
 }
 
 function render() {
@@ -22,8 +30,10 @@ function render() {
   
   hero.draw();
 
-  heroXLocation += 1;
-  hero.setXLocation(heroXLocation);
+  hero.setXLocation(x);
+  mapBorderCollider();
+
+  x += differenceToX;
 
   setTimeout(() => {
     requestAnimationFrame(render)

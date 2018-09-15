@@ -6,10 +6,8 @@ export class Hero {
   xLocation;
   yLocation;
 
-  constructor(context, xLocation, yLocation) {
+  constructor(context) {
     this.context = context;
-    this.xLocation = xLocation;
-    this.yLocation = yLocation;
   }
 
   draw() {
@@ -55,5 +53,9 @@ export class Hero {
 
   setHeroHeight(heroHeight) {
     this.height = heroHeight;
+  }
+
+  getHeroWidth() {
+    return this.width;
   }
 }
