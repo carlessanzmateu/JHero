@@ -1,18 +1,28 @@
 import { Hero } from './hero/index';
 
-var canvas = document.getElementById("myCanvas");
-var ctx = canvas.getContext("2d");
+const canvas = document.getElementById("myCanvas");
+const context = canvas.getContext("2d");
 
-var fps = 60;
+const fps = 60;
 
-const hero = new Hero(ctx, 20, 40);
+const hero = new Hero(context, 0, 0);
+
+function initHeroLocation() {
+  const heroHeight = hero.getHeroHeight();
+  const heroYLocation = canvas.height - heroHeight;
+
+  hero.setXLocation(40);
+  hero.setYLocation(heroYLocation);
+}
 
 function render() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  context.clearRect(0, 0, canvas.width, canvas.height);
   hero.draw();
+
   setTimeout(function(){
     requestAnimationFrame(render)
   }, 1000/fps);
 }
 
+initHeroLocation();
 render();

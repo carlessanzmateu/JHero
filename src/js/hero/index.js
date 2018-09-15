@@ -68,4 +68,8 @@ export class Hero {
   setHeroColor(color) {
     this.color = color;
   }
+
+  getHeroHeight() {
+    return this.height;
+  }
 }
