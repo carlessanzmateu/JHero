@@ -40,36 +40,14 @@ function mapBorderCollider() {
   }
 }
 
-function wallCollider() {
-  let xCollission = hero.getXLocation() + hero.getHeroWidth() >= wall.getWallXLocation() && 
-  hero.getXLocation() < wall.getWallXLocation() + wall.getWallWidth();
+function colliderEngine() {
+  let hasCollision = hero.getXLocation() > wall.getWallXLocation() &&
+  hero.getXLocation() < wall.getWallXLocation() + wall.getWallWidth() &&
+  hero.getYLocation() + hero.getHeroHeight() > wall.getWallYLocation();
 
-  if (xCollission) {
-    if(hero.getYLocation() + hero.getHeroHeight() > wall.getWallYLocation()) {
-      return true;
-    } else {
-      return false;
-    }
-  } else {
-    return false;
+  if (hasCollision) {
+    console.log('Collision!');
   }
-
-  // if (hero.getXLocation() <= wall.getWallXLocation() + wall.getWallWidth()) {
-  //   if ((hero.getYLocation() + hero.getHeroHeight()) > wall.getWallYLocation()) {
-  //     hero.setXLocation(wall.getWallXLocation() + wall.getWallWidth());
-  //   }
-  // }
-
-  // if ((hero.getYLocation() + hero.getHeroHeight()) > wall.getWallYLocation()) {
-  //   // hero.setXLocation(wall.getWallXLocation() - hero.getHeroWidth());
-  //   console.log('collision!');
-  // }
-}
-
-function yWallCollider() {
-  let yCollission = hero.getYLocation() + hero.getHeroHeight() > wall.getWallYLocation();
-
-  return yCollission;
 }
 
 function initHeroLocation() {
@@ -80,13 +58,22 @@ function initHeroLocation() {
   hero.setYLocation(initHeroYLocation);
 }
 
+// HOW SHOULD WORK RENDER
+/*
+render loop =>
+1.- User Interaction
+2.- Game Logic
+3.- Pthysics engine
+3.1.-Positional logic
+3.2-Collision detection
+3.3-Collision resolution
+4.- Render
+5.- => 1.- Repit all the process
+*/
 function render() {
   context.clearRect(0, 0, canvas.width, canvas.height);
   
-  hero.draw();
-  wall.draw();
-  
-  if(keyboard.getRightPressed() && !(hero.getXLocation() + hero.getHeroWidth() >= canvas.width) && !wallCollider()) {
+  if(keyboard.getRightPressed() && !(hero.getXLocation() + hero.getHeroWidth() >= canvas.width)) {
     hero.setXLocation(hero.getXLocation() + hero.getXHeroMovementSpeed());
   }
   else if(keyboard.getLeftPressed() && !(hero.getXLocation() <= 0)) {
@@ -99,8 +86,10 @@ function render() {
     hero.setYLocation(hero.getYLocation() + hero.getFallSpeed());
   }
 
-  // wallCollider();
-  mapBorderCollider();
+  colliderEngine();
+
+  hero.draw();
+  wall.draw();
 
   setTimeout(() => {
     requestAnimationFrame(render)
