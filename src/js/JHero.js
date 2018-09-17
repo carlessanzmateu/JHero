@@ -11,8 +11,6 @@ const hero = new Hero(context);
 const wall = new Wall(context, 30, 100, canvas.width/2, canvas.height - 50);
 
 const initHeroXLocation = 40;
-let x = initHeroXLocation;
-let y = canvas.height - hero.getHeroHeight();
 
 function keyDownHandler(event) {
   keyboard.keyDownHandler(event);
@@ -40,13 +38,22 @@ function mapBorderCollider() {
   }
 }
 
+function colliderResolution(hasCollision) {
+  const case1 =  hasCollision && hero.getXLocation() < wall.getWallXLocation() && hero.getYLocation();
+  if(case1) {
+    hero.setXLocation(wall.getWallXLocation() - hero.getHeroWidth());
+  } else if(hasCollision) {
+    hero.setXLocation(wall.getWallXLocation() + wall.getWallWidth());
+  }
+}
+
 function colliderEngine() {
-  let hasCollision = hero.getXLocation() > wall.getWallXLocation() &&
+  let hasCollision = hero.getXLocation() + hero.getHeroWidth() > wall.getWallXLocation() &&
   hero.getXLocation() < wall.getWallXLocation() + wall.getWallWidth() &&
   hero.getYLocation() + hero.getHeroHeight() > wall.getWallYLocation();
 
   if (hasCollision) {
-    console.log('Collision!');
+    colliderResolution(hasCollision);
   }
 }
 
@@ -87,6 +94,7 @@ function render() {
   }
 
   colliderEngine();
+  colliderResolution();
 
   hero.draw();
   wall.draw();
