@@ -2,6 +2,8 @@ import { Keyboard } from './keyboard/index';
 import { Hero } from './hero/index';
 import { Wall } from './wall/index';
 
+// import { WorldEngine } from './physicsEngine/index';
+
 const canvas = document.getElementById("myCanvas");
 const context = canvas.getContext("2d");
 const fps = 60;
@@ -9,6 +11,8 @@ const fps = 60;
 const keyboard = new Keyboard();
 const hero = new Hero(context);
 const wall = new Wall(context, 30, 100, canvas.width/2, canvas.height - 50);
+
+// const worldEngine = new WorldEngine(canvas);
 
 const initHeroXLocation = 40;
 
