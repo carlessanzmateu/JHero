@@ -2,7 +2,7 @@ import { Keyboard } from './keyboard/index';
 import { Hero } from './hero/index';
 import { Wall } from './wall/index';
 
-// import { WorldEngine } from './physicsEngine/index';
+import WorldEngine from './physicsEngine/world.engine';
 
 const canvas = document.getElementById("myCanvas");
 const context = canvas.getContext("2d");
@@ -12,7 +12,7 @@ const keyboard = new Keyboard();
 const hero = new Hero(context);
 const wall = new Wall(context, 30, 100, canvas.width/2, canvas.height - 50);
 
-// const worldEngine = new WorldEngine(canvas);
+const worldEngine = new WorldEngine(canvas, hero);
 
 const initHeroXLocation = 40;
 
@@ -84,10 +84,12 @@ render loop =>
 function render() {
   context.clearRect(0, 0, canvas.width, canvas.height);
   
-  if(keyboard.getRightPressed() && !(hero.getXLocation() + hero.getHeroWidth() >= canvas.width)) {
+  // if(keyboard.getRightPressed() && !(hero.getXLocation() + hero.getHeroWidth() >= canvas.width)) {
+  if(keyboard.getRightPressed()) {
     hero.setXLocation(hero.getXLocation() + hero.getXHeroMovementSpeed());
   }
-  else if(keyboard.getLeftPressed() && !(hero.getXLocation() <= 0)) {
+  // else if(keyboard.getLeftPressed() && !(hero.getXLocation() <= 0)) {
+  else if(keyboard.getLeftPressed()) {
     hero.setXLocation(hero.getXLocation() - hero.getXHeroMovementSpeed());
   }
 
@@ -97,6 +99,7 @@ function render() {
     hero.setYLocation(hero.getYLocation() + hero.getFallSpeed());
   }
 
+  worldEngine.check();
   colliderEngine();
   colliderResolution();
 

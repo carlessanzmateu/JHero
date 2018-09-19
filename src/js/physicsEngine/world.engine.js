@@ -1,8 +1,29 @@
 export default class WorldEngine {
   canvas;
+  actor;
 
-  constructor(canvas) {
+  constructor(canvas, actor) {
     this.canvas = canvas;
+    this.actor = actor;
+  }
+
+  check() {
+    const actorXCoordinate = this.actor.getXLocation();
+    const actorWidth = this.actor.getHeroWidth();
+    const actorYCoordinate = this.actor.getYLocation();
+    const actorHeight = this.actor.getHeroHeight();
+
+    const hasTopCollision = this.topCollision(actorYCoordinate);
+    const hasBottomCollision = this.bottomCollision(actorYCoordinate + actorHeight);
+
+    const hasLeftCollision = this.leftCollision(actorXCoordinate);
+    const hasRightCollision = this.rightCollision(actorXCoordinate + actorWidth);
+
+    if (hasTopCollision) {
+      this.actor.setYLocation(this.topCollisionRecalculation());
+    } else if (hasBottomCollision) {
+      this.actor.setYLocation(this.bottomCollisionRecalculation(actorHeight));
+    }
   }
 
   topCollision(yCoordinate) {
